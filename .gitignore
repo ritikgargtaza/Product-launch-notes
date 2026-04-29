@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V3
+.Trashes
+
+# Temp files
+*.tmp
+*.log
+
+# Editor
+.vscode/
+.idea/
+
+# Do not commit
+Do
+For
+When

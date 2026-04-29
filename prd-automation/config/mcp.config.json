@@ -1,0 +1,35 @@
+{
+  "mcp_server": {
+    "name": "notion-mcp-server",
+    "type": "http",
+    "url": "your-mcp-connection-link",
+    "description": "Notion MCP Server for reading/writing PRD pages"
+  },
+  "notion": {
+    "api_method": "mcp",
+    "read_method": "fetch_page",
+    "create_method": "create_pages",
+    "update_method": "update_page"
+  },
+  "operations": {
+    "read_prd": {
+      "tool": "notion_fetch",
+      "params": {
+        "include_discussions": false,
+        "include_transcript": false
+      }
+    },
+    "create_subpage": {
+      "tool": "notion_create_pages",
+      "params": {
+        "parent_type": "page_id"
+      }
+    },
+    "list_teams": {
+      "tool": "notion_search",
+      "query_type": "internal"
+    }
+  },
+  "prompts_path": "../release-note-file",
+  "output_path": "./output/generated-notes"
+}
