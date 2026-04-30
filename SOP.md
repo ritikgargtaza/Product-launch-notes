@@ -1,6 +1,6 @@
 # Launch Notes — SOP
 
-**Owner:** Ritik Garg, Product Marketing | **Last updated:** April 2026
+**Owner:** Ritik Garg, Product | **Last updated:** April 2026
 
 One command. 16 teams. No manual writing.
 
