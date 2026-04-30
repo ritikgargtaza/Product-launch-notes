@@ -1,6 +1,6 @@
 # SOP — Launch Notes Generation System
 
-**Owner:** Ritik Garg, Product Marketing
+**Owner:** Ritik Garg, Product
 **Last updated:** April 2026
 **Applies to:** Anyone writing pre-launch communications at Tazapay
 
