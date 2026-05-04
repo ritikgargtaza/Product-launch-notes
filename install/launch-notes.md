@@ -38,15 +38,28 @@ Read `PRD.md` from the current working directory. Read it in full. Extract:
 
 ## Step 3 — Generate Notes for All 16 Teams
 
+### 3a — Write a Common Context section first
+
+Before the team-specific sections, write a short summary of information relevant to all teams. This should cover:
+
+- What the feature is and what problem it solves
+- Who it affects (customer segments, geographies, entity types)
+- Key dates / rollout timeline
+- Any cross-cutting dependencies or constraints all teams should know
+
+Keep this to 5–8 bullet points. Do not repeat this information in individual team sections.
+
+### 3b — Write team-specific sections
+
 For each team, combine the PRD content + their team description + their team-specific prompt file.
 
-Write each section using this structure:
+Write only what is specific and meaningful to that team. Do not restate what is already in the Common Context.
 
 ```
 ## For [Team Name]
 
-**What's changing**
-2–3 sentences. Translate the PRD's impact into language specific and meaningful to this team's day-to-day responsibilities. Do not summarise the PRD generically — speak to their KPIs and function.
+**What's changing for you**
+2–3 sentences specific to this team's function and KPIs. Do not repeat the feature summary — focus only on the impact to their day-to-day work.
 
 **Actions / decisions needed**
 - 3–5 concrete, specific pre-launch steps this team must take
@@ -69,12 +82,18 @@ Header:
 **Date:** [Today's date]
 **Teams covered:** 16
 
-> These notes are tailored per team. Each team should read their section only.
+---
+
+## Common Context
+
+> What every team needs to know before reading their section.
+
+[Common context bullet points here]
 
 ---
 ```
 
-Append all 16 sections separated by `---`.
+Append all 16 team-specific sections separated by `---`.
 
 Close with:
 ```markdown
@@ -112,7 +131,8 @@ Close with:
 ## Quality Rules
 
 - Every section must have all three parts
-- Language tailored per team — not copy-pasted across sections
+- Common context captures what applies to all teams — do not repeat it in individual sections
+- Each team section must contain only what is specific to that team's function and KPIs
 - Actions must be specific and concrete
 - Use numbers, entity types, geographies from the PRD wherever available
 - If the PRD is silent on something a team cares about, flag it as an open question rather than inventing an answer
