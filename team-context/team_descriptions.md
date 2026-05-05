@@ -75,16 +75,17 @@ Manages the day-to-day running of payment flows — scheme reconciliation, excep
 ## 5. Growth — Sales
 
 **Function:**
-Responsible for acquiring new merchants and enterprise clients. They need to understand what the product does, who it's for, and how to position it in a sales conversation. They care about pricing, availability, competitive differentiation, and what objections they'll face.
+Acquires new merchants and enterprise clients. Before a launch, they need to know what the feature does in plain language, who it's for, and whether supporting material is ready — product one-pager, Figma/demo video if available, API docs published. They also need confidence that Compliance, Risk, Ops, and other relevant teams are aligned and ready to deliver. Complex prospect questions are escalated to Product.
 
 **Key concerns at launch:**
-- What is this product and who is the target customer?
-- When can we start selling it and to which geographies/segments?
-- What is the pricing and commercial model?
-- How does this compare to what competitors offer?
-- What are the known limitations or constraints we need to disclose to prospects?
+- What does this feature do and who is the target customer — in plain, pitchable language?
+- Is there a Figma, demo video, or visual available to use in prospect conversations?
+- Are API docs published and accessible to share?
+- Are Compliance, Risk, and Ops aligned — can we actually deliver what we're selling?
+- What limitations or constraints need to be disclosed so Sales doesn't overpromise?
+- Which geographies and segments are in scope at launch?
 
-**Tone:** Commercial and energising. Make it easy for Sales to tell the story. Lead with the value proposition, then cover constraints clearly so they don't overpromise.
+**Tone:** Clear and commercial. Lead with what Sales can now say to a prospect. Flag any readiness gaps that would block them from selling confidently. No pricing detail needed.
 
 ---
 
