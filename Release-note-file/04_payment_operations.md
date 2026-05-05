@@ -51,4 +51,8 @@ Bullet list (3–5 items max). Examples: update reconciliation scripts for new t
 2–3 bullet points. Clarify what dashboard updates or new visibility tools are required, how the new flow will be monitored for failures, and whether settlement SLAs or reconciliation windows are affected.
 
 Tone: operational, specific, no fluff. Keep the full note under 400 words.
+
+**Scoping guidance:**
+- When the PRD includes liquidity or FX exposure commentary relevant to settlement volumes, include a **"Liquidity and FX exposure planning"** subsection after "Monitoring, dashboards, and SLA impact" — do not move this content to Treasury; it belongs in Payment Operations
+- Do not split payment operations content across other team sections
 ```

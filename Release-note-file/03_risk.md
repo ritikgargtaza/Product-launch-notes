@@ -17,6 +17,10 @@ Owns the company's risk framework across credit risk, fraud risk, and operationa
 - Does this change our counter-party or settlement risk profile?
 - Are there scenarios where the company could face unexpected financial loss?
 - What are the top 3 risk scenarios and have they been mitigated?
+- If this feature changes the checkout or payment flow: does the PSP share redirect URLs for all new flow variants? Confirm whether URL mismatches surface in the Risk section of the ops dashboard
+- Does this feature require updates to the Forter risk flow? Confirm the data structure sent to Forter is correct for the new flow
+- Is the risk SDK (Forter) integration for any new entity types or flows merchant-managed or Tazapay-managed? Confirm ownership and flag any SDK update requirements before launch
+- Is there a config for ops and risk teams to set reserve values at the entity level? If this doesn't exist for the new flow, flag as a gap
 
 **Tone:** Analytical and direct. Lead with exposure and mitigation. Risk teams want to see that someone has thought through failure modes.
 
@@ -51,4 +55,15 @@ Bullet list (3–5 items max). Examples: approve updated exposure limits, sign o
 2–3 bullet points. Flag any changes to counter-party concentration, settlement timing, or operational resilience. Clarify whether existing monitoring and controls cover the new product scope.
 
 Tone: direct, risk-first, quantify wherever the PRD allows. Keep the full note under 400 words.
+
+**Risk tool checks (include whenever the feature touches checkout, payment, or entity flows):**
+- Forter risk flow: if checkout or payment flow changes, flag whether the data structure sent to Forter needs updating and confirm it is correct before launch
+- PSP redirect URLs: confirm PSPs share redirect URLs for all new flow variants; check whether URL mismatches (PSP URL differs from configured URLs) are visible in the Risk section of the ops dashboard — flag as open question if unconfirmed
+- Risk SDK ownership: confirm whether merchants manage the Forter SDK integration for new entity types or flows, or whether Tazapay owns it; if merchant-managed, define the briefing and support process pre-launch
+- Entity-level reserves: check whether there is a config for ops and risk teams to set reserve values at the entity level; if absent, flag as a pre-launch gap
+
+**Scoping guidance (what NOT to add unless the PRD explicitly states it):**
+- Do not add actions about reviewing entity type taxonomies or risk appetite per entity category unless the PRD introduces a new risk framework or distinct entity risk categories
+- Do not pad risk scenarios — match the count to the actual distinct risk vectors in the PRD; 2 scenarios is correct if the PRD only introduces 2 material vectors; do not invent additional scenarios
+- Do not include technical or infrastructure risks (e.g. service dependency failures, entity lookup latency) — those belong in Engineering; this section covers financial exposure and fraud only
 ```
