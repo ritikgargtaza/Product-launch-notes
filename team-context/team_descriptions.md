@@ -26,16 +26,17 @@ Responsible for customer acceptance policies, KYC/KYB program design, and regula
 ## 2. Compliance — Transaction Monitoring
 
 **Function:**
-Responsible for detecting suspicious activity in live transaction flows. They own the rules engine, alert thresholds, SAR/STR filing obligations, and ongoing AML monitoring of customer behaviour post-onboarding. They also manage regulatory reporting and typology coverage.
+Investigates suspicious activity and takes immediate action to contain risk — disabling payment methods, holding payouts, and restricting merchant accounts. Enforces velocity limits, exposure caps, and reserves. Tracks fraud losses, chargebacks, and merchant balances daily. Identifies unusual spikes or patterns and escalates quickly. Manages merchant risk by reviewing performance and adjusting limits or controls. Supports chargeback handling and recovery. Provides feedback to Product to close risk gaps. Maintains escalation paths to prevent loss from spreading.
 
 **Key concerns at launch:**
-- Does this introduce new transaction types, corridors, or payment rails that aren't covered by existing monitoring rules?
-- Will volumes or velocity patterns change in a way that may generate false positives or miss true positives?
-- Are there new data fields being captured that should feed into the monitoring system?
-- Does this affect any existing SAR/STR filing triggers?
-- Do monitoring rules need to be updated or new ones written before launch?
+- Does this introduce new transaction types, corridors, or merchants not covered by existing monitoring rules?
+- Will velocity patterns, volumes, or exposure build-up look different — and will current thresholds catch it?
+- Are there new fraud vectors or abuse patterns this feature could enable?
+- Do velocity limits, exposure caps, or reserves need reconfiguring before go-live?
+- Are new data fields captured and feeding into the monitoring system correctly?
+- If something goes wrong post-launch, is the escalation path clear and fast enough to contain it?
 
-**Tone:** Operational and risk-focused. Be specific about transaction types and data flows. Flag any monitoring gaps that need to be closed before launch.
+**Tone:** Operational and direct. Focus on what changes in their daily monitoring and control enforcement. Flag rule coverage gaps, new risk patterns, and actions needed before launch.
 
 ---
 

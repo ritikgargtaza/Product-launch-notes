@@ -1,54 +1,49 @@
 # Release Note Prompt — Compliance: Transaction Monitoring
 
-> **Team context:** Owns post-onboarding transaction surveillance, SAR filing, alert triage, and AML rule-sets.  
-> **KPIs:** Alert volume, false positive rate, SAR filing rate, time-to-resolve.  
-> **Orientation:** Deeply concerned with regulatory exposure.
+> **Team context:** Monitors live transaction flows to detect fraud, abnormal behaviour, and exposure build-up. Takes immediate action to contain risk — disabling payment methods, holding payouts, restricting accounts.
+> **KPIs:** Fraud loss rate, chargeback rate, alert response time, exposure breaches, merchant risk incidents.
+> **Orientation:** Operationally fast-moving. Needs to know what new patterns, rails, or merchant types to watch for — before launch, not after.
 
 ---
 
 ## Team Description (for context)
 
 **Function:**
-Responsible for detecting suspicious activity in live transaction flows. They own the rules engine, alert thresholds, SAR/STR filing obligations, and ongoing AML monitoring of customer behaviour post-onboarding. They also manage regulatory reporting and typology coverage.
+Investigates suspicious activity and takes immediate action to contain risk — including disabling payment methods, holding payouts, and restricting merchant accounts. Enforces risk controls such as velocity limits, exposure caps, and reserves. Tracks fraud losses, chargebacks, and merchant balances daily. Identifies unusual spikes or patterns and escalates quickly. Manages merchant risk by reviewing performance and adjusting limits or controls. Supports chargeback handling and recovery efforts. Provides feedback to Product to close risk gaps and strengthen controls. Maintains clear escalation paths to prevent loss from spreading.
 
 **Key concerns at launch:**
-- Does this introduce new transaction types, corridors, or payment rails that aren't covered by existing monitoring rules?
-- Will volumes or velocity patterns change in a way that may generate false positives or miss true positives?
-- Are there new data fields being captured that should feed into the monitoring system?
-- Does this affect any existing SAR/STR filing triggers?
-- Do monitoring rules need to be updated or new ones written before launch?
+- Does this introduce new transaction types, corridors, or merchants that aren't covered by existing monitoring rules?
+- Will velocity patterns, volumes, or exposure build-up look different — and will current thresholds catch it?
+- Are there new fraud vectors or abuse patterns this feature could introduce?
+- Do velocity limits, exposure caps, or reserves need to be reconfigured before go-live?
+- What data fields are being captured and do they feed into the monitoring system correctly?
+- If something goes wrong post-launch, is the escalation path clear and fast enough to contain it?
 
-**Tone:** Operational and risk-focused. Be specific about transaction types and data flows. Flag any monitoring gaps that need to be closed before launch.
+**Tone:** Operational and direct. Focus on what changes in their daily monitoring and control enforcement. Flag any gaps in rule coverage, new risk patterns to watch, and actions needed before launch.
 
 ---
 
 ## Prompt
 
 ```
-You are a Senior PMM writing an internal pre-release sync note for the Compliance — Transaction Monitoring (TM) team.
+You are a Senior PMM writing an internal pre-release sync note for the Transaction Monitoring (TM) team.
 
-Context about this team: They own post-onboarding transaction surveillance, SAR filing, alert triage, and AML rule-sets. Their KPIs include alert volume, false positive rate, SAR filing rate, and time-to-resolve. They care deeply about regulatory exposure.
+Context about this team: They monitor live transactions to detect fraud, abnormal behaviour, and exposure build-up. They take immediate action when things look wrong — disabling payment methods, holding payouts, restricting accounts. They track fraud losses, chargebacks, and merchant balances daily, manage velocity limits and exposure caps, and maintain escalation paths to contain losses fast.
 
 PRD: [PASTE NOTION/CONFLUENCE LINK]
 
-North star for this release: to sync all teams before the product release — so this note exists to give the team full visibility before go-live, not after.
+North star for this release: give TM enough lead time to update rules, reconfigure controls, and brief the team on new patterns to watch — before go-live, not after.
 
-Write a short internal Slack/email note using exactly this structure:
+Write a short internal note using exactly this structure:
 
-**What's new**
-2–3 sentences. What is changing in payment flows, transaction types, or customer segments that affects what TM monitors? Mention if new transaction types are introduced or velocity rules are affected.
+**What's changing**
+2–3 sentences. What new transaction types, corridors, merchant categories, or volumes does this introduce? What monitoring gaps or new risk patterns should TM expect? Be specific — not generic.
 
-**What's in it for you**
-2–3 sentences. How does this change alert volume, false positive rate, or SAR filing triggers? Flag if existing AML rules need recalibration.
+**Actions / decisions needed**
+Bullet list (3–5 items). Examples: review rule coverage for new transaction types, recalibrate velocity limits or exposure caps, confirm alert routing for new merchant categories, validate threshold logic in staging, brief the team on new fraud patterns or abuse vectors to watch.
 
-**Inputs required before go-live**
-Bullet list (3–5 items max). Examples: review rule-set coverage for new transaction types, confirm alert routing for new merchant categories, validate threshold logic in staging, brief the triage team on new patterns to watch.
+**Risks / watch-outs**
+2–3 bullets. What could go wrong in their domain if not addressed before launch? Examples: exposure build-up that current caps won't catch, chargeback spikes in a new corridor, fraud patterns that existing rules won't flag, escalation paths that aren't set up for a new merchant type.
 
-**Rule coverage and data flows**
-2–3 bullet points. Specify which existing rules need recalibration, which new rules are required, and how new data fields will feed into the monitoring system. Include the expected impact on alert volumes and false positive rates.
-
-**Escalation and reporting**
-1–2 bullet points. Clarify any changes to SAR/STR filing triggers, reporting timelines, or escalation paths. Flag if new corridors or transaction types have typology implications.
-
-Tone: risk-averse, precise, no marketing language. Keep the full note under 400 words.
+Tone: operational, direct, no fluff. Keep the full note under 400 words.
 ```
