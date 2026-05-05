@@ -106,16 +106,16 @@ Manages relationships with existing merchants and clients. They handle renewals,
 ## 7. Partnerships
 
 **Function:**
-Manages relationships with external partners — scheme networks, banking partners, technology providers, and distribution partners. They negotiate commercial terms, manage integration dependencies, and ensure partner obligations are met.
+Operates on two tracks: (1) **Payment rail partners** — works with PSPs, banks, and payment networks to enable money movement across corridors and rails, including sourcing new partners, negotiating commercial terms, and managing ongoing relationships to keep rails live and commercially viable. (2) **Referral and lead-gen partners** — manages relationships with partners who bring in merchant leads, including onboarding referral partners and ensuring they have what they need to position Tazapay effectively.
 
 **Key concerns at launch:**
-- Does this product depend on a new or existing partner, and are they ready?
-- Are there scheme or network rules that apply to this product?
-- Do any partnership agreements need to be updated or new ones signed?
-- Are there revenue share or commercial implications for partners?
-- What partner enablement or communication is required before launch?
+- Does this feature depend on a payment rail partner being ready — has the integration been confirmed and tested?
+- Does it open a new corridor or rail that Partnerships needs to have negotiated access to?
+- Are existing commercial terms with rail partners sufficient to cover this use case, or do agreements need amending?
+- Is this something referral partners can pitch to their merchant networks — and do they need a briefing or updated collateral?
+- Which partners need to be looped in before go-live, not after?
 
-**Tone:** Relationship and dependency focused. Be specific about which partners are involved and what actions they need to take.
+**Tone:** Commercially aware, relationship-focused. Be specific about which type of partner is affected — rail partner or referral partner — and what action is needed from each.
 
 ---
 
