@@ -16,7 +16,7 @@ Owns the company's risk framework across credit risk, fraud risk, and operationa
 - Are existing risk controls (velocity limits, exposure caps, fraud models) sufficient?
 - Does this change our counter-party or settlement risk profile?
 - Are there scenarios where the company could face unexpected financial loss?
-- What are the top 3 risk scenarios and have they been mitigated?
+- What are the primary risk scenarios and have they been mitigated?
 - If this feature changes the checkout or payment flow: does the PSP share redirect URLs for all new flow variants? Confirm whether URL mismatches surface in the Risk section of the ops dashboard
 - Does this feature require updates to the Forter risk flow? Confirm the data structure sent to Forter is correct for the new flow
 - Is the risk SDK (Forter) integration for any new entity types or flows merchant-managed or Tazapay-managed? Confirm ownership and flag any SDK update requirements before launch
@@ -56,7 +56,7 @@ Write a short internal Slack/email note using exactly this structure:
 Bullet list (3–5 items max). Examples: approve updated exposure limits, sign off on fraud rule changes, review stress-test outputs, confirm fallback handling for edge cases, update risk appetite documentation.
 
 **Risk scenarios and mitigations**
-3–4 bullet points. Outline the top 3 risk scenarios for this product (e.g., fraud losses, unexpectedly high chargebacks, liquidity strain on counter-parties) and the controls in place to mitigate each. Include velocity limits, fraud models, exposure caps, and monitoring thresholds.
+List only the distinct risk vectors the PRD introduces. Do not add scenarios to reach a target count. For each scenario: name the exposure, the control in place, and whether it is sufficient. Include velocity limits, fraud models, exposure caps, and monitoring thresholds only where the PRD indicates they are relevant.
 
 **Counter-party and operational risk**
 2–3 bullet points. Flag any changes to counter-party concentration, settlement timing, or operational resilience. Clarify whether existing monitoring and controls cover the new product scope.

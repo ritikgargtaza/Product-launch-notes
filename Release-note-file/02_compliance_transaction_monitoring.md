@@ -21,6 +21,13 @@ Investigates suspicious activity and takes immediate action to contain risk — 
 
 **Tone:** Operational and direct. Focus on what changes in their daily monitoring and control enforcement. Flag any gaps in rule coverage, new risk patterns to watch, and actions needed before launch.
 
+```
+**Scoping guidance (what NOT to add unless the PRD explicitly states it):**
+- Do not add AML typologies or SAR/STR obligations unless the PRD introduces a new transaction type with explicit filing implications
+- Do not invent fraud pattern names — describe patterns only using language the PRD provides
+- Do not add monitoring rule recommendations unless the PRD introduces a transaction type with no existing rule coverage
+```
+
 ---
 
 ## Prompt
