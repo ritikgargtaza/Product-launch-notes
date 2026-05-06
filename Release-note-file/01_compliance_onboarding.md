@@ -21,6 +21,14 @@ Responsible for customer acceptance policies, KYC/KYB program design, and regula
 
 **Tone:** Regulatory and procedural. Be precise about obligations. Flag anything that requires a policy update or sign-off before go-live.
 
+**Scoping guidance (what NOT to add unless the PRD explicitly states it):**
+- Use the PRD's own language for entity types — do not expand a simple descriptor (e.g. "sellers and individuals") into a full taxonomy of your own
+- Do not add CDD/EDD review actions unless the PRD explicitly introduces new entity types or segments requiring new procedures — a new config or field alone does not warrant this
+- Do not add travel rule risk bullets unless the PRD explicitly flags travel rule implications
+- Do not add data retention or audit trail risks unless the PRD describes a deletion or archival behaviour that creates a compliance gap
+- Keep to 2–3 actions and 1–2 risks — only include what the PRD's specific scope genuinely demands
+```
+
 ---
 
 ## Prompt
@@ -54,10 +62,3 @@ Tone: precise, risk-aware, no fluff. Keep the full note under 400 words.
 - Flag as an action item: confirm Sardine data mapping is complete and the correct data structure is being sent for any new flow or entity type introduced by the feature
 - Confirm in staging that the new flow does not generate false positive rule alerts in Sardine before go-live — if mapping is not locked, block launch for this team until it is
 
-**Scoping guidance (what NOT to add unless the PRD explicitly states it):**
-- Use the PRD's own language for entity types — do not expand a simple descriptor (e.g. "sellers and individuals") into a full taxonomy of your own
-- Do not add CDD/EDD review actions unless the PRD explicitly introduces new entity types or segments requiring new procedures — a new config or field alone does not warrant this
-- Do not add travel rule risk bullets unless the PRD explicitly flags travel rule implications
-- Do not add data retention or audit trail risks unless the PRD describes a deletion or archival behaviour that creates a compliance gap
-- Keep to 2–3 actions and 1–2 risks — only include what the PRD's specific scope genuinely demands
-```

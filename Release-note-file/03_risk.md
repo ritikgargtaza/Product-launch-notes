@@ -24,6 +24,13 @@ Owns the company's risk framework across credit risk, fraud risk, and operationa
 
 **Tone:** Analytical and direct. Lead with exposure and mitigation. Risk teams want to see that someone has thought through failure modes.
 
+
+**Scoping guidance (what NOT to add unless the PRD explicitly states it):**
+- Do not add actions about reviewing entity type taxonomies or risk appetite per entity category unless the PRD introduces a new risk framework or distinct entity risk categories
+- Do not pad risk scenarios — match the count to the actual distinct risk vectors in the PRD; 2 scenarios is correct if the PRD only introduces 2 material vectors; do not invent additional scenarios
+- Do not include technical or infrastructure risks (e.g. service dependency failures, entity lookup latency) — those belong in Engineering; this section covers financial exposure and fraud only
+```
+
 ---
 
 ## Prompt
@@ -62,8 +69,3 @@ Tone: direct, risk-first, quantify wherever the PRD allows. Keep the full note u
 - Risk SDK ownership: confirm whether merchants manage the Forter SDK integration for new entity types or flows, or whether Tazapay owns it; if merchant-managed, define the briefing and support process pre-launch
 - Entity-level reserves: check whether there is a config for ops and risk teams to set reserve values at the entity level; if absent, flag as a pre-launch gap
 
-**Scoping guidance (what NOT to add unless the PRD explicitly states it):**
-- Do not add actions about reviewing entity type taxonomies or risk appetite per entity category unless the PRD introduces a new risk framework or distinct entity risk categories
-- Do not pad risk scenarios — match the count to the actual distinct risk vectors in the PRD; 2 scenarios is correct if the PRD only introduces 2 material vectors; do not invent additional scenarios
-- Do not include technical or infrastructure risks (e.g. service dependency failures, entity lookup latency) — those belong in Engineering; this section covers financial exposure and fraud only
-```
