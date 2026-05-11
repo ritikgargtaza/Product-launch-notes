@@ -2,6 +2,13 @@
 
 **Owner:** Ritik Garg, Product | **Last updated:** May 2026
 
+One command. Tailored notes. Only for the teams that matter.
+
+| Stage | Input | Command | Output |
+|---|---|---|---|
+| Before PRD | `IDEA.md` — rough one-pager | `/pre-scope` | Questions + flags for 8 key teams |
+| After PRD | `PRD.md` — full requirements | `/launch-notes` | Tailored notes for teams listed in PRD |
+
 ---
 
 ## Setup (one time, 3 minutes)
@@ -69,6 +76,17 @@ Open Claude Code in the folder, then run:
 /launch-notes
 ```
 → Generates `launch-notes.md` with tailored notes for each listed team.
+
+Your folder will contain:
+```
+your-feature/
+├── IDEA.md           ← your rough idea
+├── pre-scope.md      ← 8 teams, pre-scope questions
+├── PRD.md            ← your full PRD
+└── launch-notes.md   ← tailored notes per team
+```
+
+The commands look for files by exact name — `IDEA.md` for pre-scope, `PRD.md` for launch notes.
 
 ---
 
