@@ -1,123 +1,121 @@
-Generate pre-launch sync notes for all 16 teams from a full PRD.
+Generate pre-launch sync notes from a full PRD — only for the teams listed in the PRD.
 
-## Step 1 — Fetch Latest Team Context from GitHub
+You are operating inside a deployment folder. Follow these steps exactly:
 
-Fetch all of the following files using WebFetch. Read each one in full before proceeding.
+## Step 1 — Read the PRD
 
-**Team descriptions (all 16 teams):**
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/team-context/team_descriptions.md
-
-**Team-specific prompt files (fetch all 16):**
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/01_compliance_onboarding.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/02_compliance_transaction_monitoring.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/03_risk.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/04_payment_operations.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/05_treasury.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/06_sales.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/07_account_management.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/08_partnerships.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/09_legal.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/10_finance.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/11_licensing.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/12_product_payments_pod.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/13_product_operations_pod.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/14_product_merchant_pod.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/15_product_data.md
-https://raw.githubusercontent.com/ritikgargtaza/Product-launch-notes/main/Release-note-file/16_engineering.md
-
-Each team file contains: what to focus on, what to flag, what tone to use, and what structure to follow for that specific team.
-
-## Step 2 — Read the PRD
-
-Read `PRD.md` from the current working directory. Read it in full. Extract:
+Read the file `PRD.md` in the current working directory. Read it in full. Extract:
 - What the feature or product is
 - Who it affects (customer segments, geographies, entity types)
 - What changes technically and operationally
 - Timeline, volumes, rollout plan
 - Any known risks, constraints, or open questions
 
-## Step 3 — Generate Notes for All 16 Teams
+**Extract the affected teams list:**
+Look for a section in the PRD titled `## Teams to Brief`. This will be a bullet list of team names. Extract this list — you will only generate notes for the teams listed here.
 
-### 3a — Write a Common Context section first
+If the `## Teams to Brief` section is missing from the PRD, generate notes for all 16 teams and add a warning at the top of the output: `> ⚠️ "Teams to Brief" section not found in PRD — notes generated for all 16 teams. Add a "Teams to Brief" section to your PRD to limit output to relevant teams only.`
 
-Before the team-specific sections, write a short summary of information relevant to all teams. This should cover:
+## Step 2 — Load Team Context
 
-- What the feature is and what problem it solves
-- Who it affects (customer segments, geographies, entity types)
-- Key dates / rollout timeline
-- Any cross-cutting dependencies or constraints all teams should know
+Read both of these files:
 
-Keep this to 5–8 bullet points. Do not repeat this information in individual team sections.
+**A.** `../../team-context/team_descriptions.md`
+This contains the Function, Key Concerns, and Tone for each of the 16 teams.
 
-### 3b — Write team-specific sections
+**B.** `../../Release-note-file/` — read all 16 files:
+- `01_compliance_onboarding.md`
+- `02_compliance_transaction_monitoring.md`
+- `03_risk.md`
+- `04_payment_operations.md`
+- `05_treasury.md`
+- `06_sales.md`
+- `07_account_management.md`
+- `08_partnerships.md`
+- `09_legal.md`
+- `10_finance.md`
+- `11_licensing.md`
+- `12_product_payments_pod.md`
+- `13_product_operations_pod.md`
+- `14_product_merchant_pod.md`
+- `15_product_data.md`
+- `16_engineering.md`
 
-For each team, combine the PRD content + their team description + their team-specific prompt file.
+Each file contains team-specific prompt guidance — what to focus on, what to flag, what tone to use, and what structure to follow for that team's note. Use this alongside the team descriptions to write each section.
 
-Write only what is specific and meaningful to that team. Do not restate what is already in the Common Context.
+## Step 3 — Generate Notes for Affected Teams Only
+
+Only generate a note for each team that appears in the `## Teams to Brief` list extracted from the PRD. Skip all other teams entirely — do not write a placeholder or "not applicable" entry for skipped teams.
+
+For each team in scope, combine:
+- The PRD content (what's actually changing)
+- The team description (their function, KPIs, concerns)
+- The team-specific prompt file (what to focus on and how to write it)
+
+Write each section using this structure:
 
 ```
 ## For [Team Name]
 
-**What's changing for you**
-2–3 sentences specific to this team's function and KPIs. Do not repeat the feature summary — focus only on the impact to their day-to-day work.
+**What's changing**
+2–3 sentences. Translate the PRD's impact into language specific and meaningful to this team's day-to-day responsibilities. Do not summarise the PRD generically — speak to their KPIs and function.
 
 **Actions / decisions needed**
 - 3–5 concrete, specific pre-launch steps this team must take
-- Be specific — not "review the feature" but exactly what to do
+- Each bullet should be actionable (not "review the feature" — be specific)
 
 **Risks / watch-outs**
 - 2–3 escalation flags specific to this team's domain
-- Things that could go wrong in their area if not addressed before launch
+- Things that could go wrong in their area if not addressed
 ```
 
 ## Step 4 — Write Output File
 
-Save as `launch-notes.md` in the current working directory.
+Save the complete output as `launch-notes.md` in the current working directory.
 
-Header:
+Use this header:
+
 ```markdown
 # Pre-Launch Sync Notes
 
 **Feature:** [Feature name from PRD]
 **Date:** [Today's date]
-**Teams covered:** 16
+**Teams covered:** [List the team names from the "Teams to Brief" section, comma-separated]
 
----
-
-## Common Context
-
-> What every team needs to know before reading their section.
-
-[Common context bullet points here]
+> These notes are tailored per team. Each team should read their section only. If a pre-scope note exists in this folder, this launch note supersedes it.
 
 ---
 ```
 
-Append all 16 team-specific sections separated by `---`.
+Then append all 16 team sections, each separated by `---`.
 
-Close with:
+Close the file with:
+
 ```markdown
 ---
 
 ## How to Use These Notes
 
-1. Each team reads their section only
-2. Actions/decisions — pre-launch checklist, flag any blockers
+1. Each team reads their section — tailored to their function
+2. Actions/decisions — treat as a pre-launch checklist; flag any blockers
 3. Risks/watch-outs — escalate before go-live, not after
-4. Run a sync — let teams confirm actions and assign owners
+4. Run a sync — share this document, let teams ask questions, each team owns their section
 
-*Generated by Launch Notes System — github.com/ritikgargtaza/Product-launch-notes*
+*Generated by Launch Notes System. Commit to git for version history and team visibility.*
 ```
 
-## Teams to Cover (in this order)
+## Teams to Cover
 
+Cover only the teams listed in the PRD's `## Teams to Brief` section, in the order they appear there. If a team name in the PRD doesn't exactly match a name below, match it to the closest entry and note the match in the output.
+
+Full reference list (for matching):
 1. Compliance — Onboarding
 2. Compliance — Transaction Monitoring
 3. Risk
 4. Payment Operations
 5. Treasury
-6. Growth — Sales
-7. Growth — Account Management
+6. Sales (also: Growth — Sales)
+7. Account Management (also: Growth — Account Management)
 8. Partnerships
 9. Legal
 10. Finance
@@ -131,10 +129,9 @@ Close with:
 ## Quality Rules
 
 - Every section must have all three parts
-- Common context captures what applies to all teams — do not repeat it in individual sections
-- Each team section must contain only what is specific to that team's function and KPIs
+- Language must be tailored per team — not copy-pasted
 - Actions must be specific and concrete
-- Use numbers, entity types, geographies from the PRD wherever available
+- Use numbers, geographies, and entity types from the PRD wherever available
 - If the PRD is silent on something a team cares about, flag it as an open question rather than inventing an answer
 
-Once done, confirm: "launch-notes.md has been generated for all 16 teams. Review and commit to git."
+Once `launch-notes.md` is written, confirm: "launch-notes.md has been generated for all 16 teams. Review and run `git add . && git commit -m 'Launch notes: [feature name]'` to save."
