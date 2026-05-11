@@ -521,8 +521,13 @@ Bullet list (3–5 items max). Examples: confirm feature flag configuration, val
 
 Only generate a note for each team listed in the PRD's `## Teams to Brief` section. Skip all others — no placeholders or "not applicable" entries.
 
+**Important — avoid repetition:**
+The output file starts with a Common Context block (see Step 4) that covers the feature summary, go-live date, geographies, entity types, and rollout strategy — written once for everyone.
+
+Because of this, the **"What's new"** section in each team's note must NOT repeat the feature description. Instead, write 1–2 sentences that frame the change specifically through that team's lens — what it means for their function, their KPIs, their day-to-day. Assume they have already read the Common Context.
+
 For each team in scope:
-- Use the team's specific output structure defined above (not a generic format)
+- Use the team's specific output structure defined in Step 2 (not a generic format)
 - Apply the team's scoping rules strictly
 - Write from the PRD content — if the PRD is silent on something a team cares about, flag it as an open question rather than inventing an answer
 
@@ -532,34 +537,64 @@ For each team in scope:
 
 Save as `launch-notes.md` in the current working directory.
 
-Header:
+Use this exact structure:
 
 ```markdown
 # Pre-Launch Sync Notes
 
 **Feature:** [Feature name from PRD]
-**Date:** [Today's date]
+**Go-live:** [Target date from PRD, or "TBC" if not stated]
+**Date generated:** [Today's date]
 **Teams covered:** [comma-separated list of teams from "Teams to Brief"]
 
-> These notes are tailored per team. Each team reads their section only.
+---
+
+## Common Context
+
+> Read this first. All team sections below assume you've read this.
+
+**What we're launching**
+2–3 sentences. Plain-language summary of the feature and the problem it solves. No jargon.
+
+**Who it affects**
+- **Geographies:** [exact list from PRD only — do not infer]
+- **Entity types:** [exact names from PRD — do not expand]
+- **Customer segments:** [exact from PRD]
+
+**Key technical facts**
+- **Payment rails / PSPs involved:** [exact list, or "none"]
+- **New corridors or currencies:** [exact list, or "none"]
+- **Rollout strategy:** [flag-gated / gradual / hard cutover — or "TBC"]
+- **Sardine involved:** [Yes / No]
+- **Forter involved:** [Yes / No]
+
+**Open questions (from PRD)**
+List any questions explicitly flagged as unresolved in the PRD. If none, omit this section.
 
 ---
 ```
 
-Append all team sections separated by `---`.
+Then append each team section, separated by `---`.
 
-Close with:
+Each team section heading:
+```markdown
+## [Team Name]
+```
+
+Close the file with:
 
 ```markdown
 ---
 
-*Each team reads their section. Inputs/decisions = pre-launch checklist. Risks/watch-outs = escalate before go-live, not after.*
+*Each team reads their section. Common Context applies to all. Inputs/decisions = pre-launch checklist. Risks/watch-outs = escalate before go-live, not after.*
 ```
 
 ---
 
 ## Quality Rules
 
+- Write the Common Context block first — it is shared across all teams and must not be repeated in team sections
+- Each team's "What's new" is the team-specific framing only — 1–2 sentences through their lens, not a repeat of the feature summary
 - Use each team's specific output structure — do not use a generic format across all teams
 - Language tailored per team — not copy-pasted across sections
 - Actions specific and concrete — not "review the feature"
