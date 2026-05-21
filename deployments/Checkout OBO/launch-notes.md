@@ -2,8 +2,8 @@
 
 **Feature:** Checkout on Behalf Of (Checkout OBO)
 **Go-live:** TBC — pending Compliance and Licensing sign-off per entity type and merchant segment
-**Date generated:** 2026-05-11
-**Teams covered:** Compliance — Onboarding, Compliance — Transaction Monitoring, Risk, Payment Operations, Partnerships, Legal, Licensing
+**Date generated:** 2026-05-21
+**Teams covered:** Compliance — Onboarding, Compliance — Transaction Monitoring, Risk, Legal, Licensing, Payment Operations, Banking Partnerships / Payments Pod
 
 ---
 
@@ -12,106 +12,119 @@
 > Read this first. All team sections below assume you've read this.
 
 **What we're launching**
-Merchants can now register entities — sellers and individuals — within their account, and create checkout sessions on those entities' behalf using a single optional field (`on_behalf_of`) on the checkout API. The payin automatically inherits the entity attribution on checkout completion; no extra API calls are required. This introduces a PayFac-style sub-merchant layer on top of existing checkout and payin infrastructure.
+Merchants can register third-party entities (sellers, individuals) and create checkout sessions on their behalf via one optional API field (`on_behalf_of`). Payins inherit the entity attribution automatically on checkout completion. This introduces a PayFac-style sub-merchant layer on top of existing checkout and payin infrastructure — no extra API calls, no new rails.
 
 **Who it affects**
-- **Geographies:** No geography restrictions in the PRD — availability is gated by Compliance and Licensing sign-off per entity type and merchant segment
-- **Entity types:** Sellers, individuals, money transfer operators, remittance agents, subagents, wallet providers, mobile money operators, telecoms, utility companies, service providers, billers
-- **Primary merchant segments:** Licensed institutions reselling Tazapay payment methods; remittance providers; financial services companies; marketplace and aggregator platforms
+- **Geographies:** No geography restrictions in PRD — gated by Compliance and Licensing sign-off per entity type and merchant segment
+- **Entity types:** Sellers, individuals, MTOs, remittance agents, subagents, wallet providers, mobile money operators, telecoms, utility companies, service providers, billers
+- **Customer segments:** Licensed institutions reselling Tazapay payment methods; remittance providers; financial services companies; marketplace and aggregator platforms
 
 **Key technical facts**
-- **Payment rails / PSPs:** No new rails or PSP integrations — OBO is an attribution layer on existing checkout and payin infrastructure
+- **Payment rails / PSPs involved:** No new rails or PSP integrations — OBO is an attribution layer on existing checkout and payin infrastructure
 - **New corridors or currencies:** None
 - **Rollout strategy:** TBC — gated by Compliance and Licensing per entity type
-- **Two new merchant-level configs (both default ON):**
-  - Mandatory entity approval required for checkout creation — entities must be approved before OBO checkout is allowed
-  - Mandatory OBO information for checkout — makes `on_behalf_of` required for all checkouts on that account
-- **New API error codes:** `entity_not_approved`, "on_behalf_of field is required for this merchant account"
-- **Sardine involved:** Yes — entity fields (entity ID, business name, entity type) passed alongside standard checkout data; mapping must be confirmed before launch
-- **Forter involved:** Yes — SDK ownership (merchant-managed vs Tazapay-managed) for entity flows is unconfirmed
+- **Configs being introduced (defaults both ON):**
+  - `Mandatory entity approval required for checkout creation` — entity must be approved before checkout creation
+  - `Mandatory OBO information for checkout` — `on_behalf_of` required on all checkouts
+- **New API errors:** `entity_not_approved`, "on_behalf_of field is required for this merchant account"
+- **New webhook payload fields:** `on_behalf_of`, `entity_details` (entity_id, business_name, email, reference_id) on all checkout and payin events
+- **New hosted-page config:** `on_behalf_of_configuration.hosted_page_display` = `entity` | `entity_plus_account`
+- **Sardine involved:** Yes — entity fields must be added to the data mapping
+- **Forter involved:** Yes — SDK ownership for entity flows unconfirmed
 
-**Open questions**
-- Is Sardine data mapping complete and locked for the Checkout OBO flow?
-- Is the Forter SDK integration for entities merchant-managed or Tazapay-managed?
-- Do PSPs share redirect URLs for all OBO checkout variants? Do URL mismatches surface in the Risk dashboard?
+**Open questions (from PRD)**
+- Is Sardine data mapping complete and locked for the OBO flow?
+- Is the Forter SDK for entities merchant-managed or Tazapay-managed?
+- Do PSPs share redirect URLs for all OBO checkout variants? Do mismatches surface in the Risk dashboard?
 - Does the OBO structure trigger regulatory notification obligations in any jurisdiction?
-- Is there an entity-level reserve config for ops and risk teams, or is this intentionally account-level only?
-- If a payments partner is the "merchant" and their clients are the "entities" in an OBO flow, does the partner agreement cover this structure?
+- Is there an entity-level reserve config, or is this intentionally account-level only?
+- If a payments partner is the "merchant" and their clients are the "entities", does the partner agreement cover this structure?
 
 ---
 
 ## Compliance — Onboarding
 
-- Entity approval gate (`Mandatory entity approval required for checkout creation`) defaults ON — the approval queue becomes a real-time production control that blocks merchant checkout creation, not just a back-office step
-- Confirm Customer Due Diligence (CDD) coverage for the new entity fields collected (business name, email, country, entity type, merchant-assigned reference ID) across every supported entity type
-- Sign off on the entity approval workflow and Service Level Agreement (SLA) before launch — an undefined SLA means stalled merchant operations once the default-ON gate is live
-- Sardine data mapping for the OBO flow (entity_id, business_name, entity_type alongside standard checkout data) must be confirmed and locked — launch blocker for this team if unresolved
-- Validate in staging that OBO checkout sessions do not generate false-positive rule alerts in Sardine before go-live
+**Actions**
+- Confirm the default-ON approval gate is acceptable at launch, or flag merchant categories needing it OFF.
+- Define entity approval SLA — queue delays directly block merchant checkout creation.
+
+**Blockers**
+- Sardine data mapping for OBO flow must be confirmed (entity ID, business name, type) before launch.
+- Validate no false positive Sardine alerts on OBO sessions.
 
 ---
 
 ## Compliance — Transaction Monitoring
 
-- Payins now carry `on_behalf_of` and `entity_details` (entity_id, business_name, email, reference_id) — confirm these fields are ingested into the Transaction Monitoring (TM) system before launch
-- Review existing Anti-Money Laundering (AML) rules to operate at the entity level, not just merchant level — velocity, volume, and corridor rules at merchant-level will miss entity-level structuring (e.g. one marketplace with 500 sellers reading as one high-volume merchant)
-- Recalibrate typology rules for Money Transfer Operator (MTO) and remittance agent entity types — explicitly supported and higher-risk corridors
-- Confirm Suspicious Activity Report (SAR) / Suspicious Transaction Report (STR) filing logic still maps correctly when the entity and the merchant are different legal entities attributed to the same payin
-- Brief the alert team — alert volume may spike post-launch as the new `on_behalf_of` field appears in previously unseen merchant flows; plan for a calibration period
+**Actions**
+- Confirm `on_behalf_of` and `entity_details` webhook fields are ingested into TM before launch.
+- Review AML rule-sets — merchant-level velocity/volume rules won't catch entity-level structuring.
+- Recalibrate typology rules for remittance and MTO account types (higher-risk corridors).
+- Confirm SAR/STR filing logic works when entity and merchant are different legal entities.
+
+**Watch-out**
+- A merchant with 500 entities looks like one high-volume account without entity-level segmentation. Biggest gap to close before launch.
 
 ---
 
 ## Risk
 
-- Entity approval gate (default ON) is the primary control over which entities can receive funds — if a merchant has it toggled OFF, entities can transact before any compliance review
-- Confirm fraud and chargeback controls operate at the entity level so a single bad entity under a compliant marketplace merchant is detectable and blockable independent of merchant-level metrics
-- Refunds and chargebacks on OBO payins retain the `on_behalf_of` reference — confirm reconciliation and dispute tracking preserve entity attribution, and sign off on escalation when an entity's `approval_status` flips (approved → rejected) while sessions are live
-- Forter SDK ownership for entity flows (merchant-managed vs Tazapay-managed) is unconfirmed — resolve and define briefing/support path before go-live
-- Open question — confirm Payment Service Providers (PSPs) share redirect URLs for all OBO checkout variants and whether URL mismatches surface in the Risk section of the ops dashboard
-- Open question — entity-level reserve config: confirm whether it exists, or flag as intentional account-level-only design vs a pre-launch gap
+**Actions**
+- Confirm fraud and chargeback controls operate at entity level, not just merchant level.
+- Define escalation path when an entity's approval status changes while live checkouts are in flight.
+- Clarify whether risk SDK is merchant-managed or entity-managed; define support path.
+- Confirm entity-level reserve config exists, or flag gap (reserves should sit at aggregate account level).
 
----
-
-## Payment Operations
-
-- No new payment rails, schemes, or settlement windows — Checkout OBO is an attribution layer on existing checkout and payin infrastructure; no SLA or reconciliation window change
-- Map the two new API error codes — `entity_not_approved` and the "on_behalf_of field is required for this merchant account" error — to internal Standard Operating Procedure (SOP) and define the triage handoff to Compliance Onboarding
-- Update reconciliation scripts to read `on_behalf_of` and `entity_details` on payins and refunds so breaks surface at entity level, not just merchant level; validate the new CSV export columns (Receiver Name, Entity ID, Country, Email, Reference ID, Status) in staging
-- Brief the exceptions team on PRD-named edge cases: deleted entity mid-checkout (displays as "(Deleted)"), revoked entity approval while sessions are live, and high-volume entity transactions under one merchant
-- Refunds retain the `on_behalf_of` reference — confirm refund, dispute, and chargeback workflows preserve entity attribution end-to-end
-- Validate the new "Receiver Details" columns and entity search/filter (entity_id, business_name, reference_id, email with partial-match support) on the Operations Dashboard before launch
-
----
-
-## Partnerships
-
-- No new rails, corridors, or payment methods introduced — no rail integration dependency and no new commercial access to negotiate for this launch
-- Confirm existing rail partner commercial agreements cover payins attributed to sub-entities under the merchant account (pricing, commissions, and contractual scope should not need amendment, but worth a sanity-check before regulated entity types are enabled at scale)
-- Validate that no in-scope rail partner has contractual restrictions on processing for sub-merchant or PayFac-style structures — surface as a launch blocker for those rails if any do
-- Coordinate with Legal on the open question of whether a rail partner's contract needs an addendum when the partner's clients become "entities" in an OBO flow
-- No commercial repricing expected; if volumes shift materially toward higher-risk entity categories (remittance, mobile money), confirm they remain within existing commercial bands
+**Scenarios**
+- Fraudulent entity under legitimate merchant: if approval gate is OFF, bad actors create checkouts immediately. Flag high-risk merchant types for mandatory gate ON.
+- Chargeback concentration: one bad seller masked by good merchant-level metrics. Entity-level thresholds must trigger blocks independently.
 
 ---
 
 ## Legal
 
-- Three-party payment structure introduced — Tazapay processes for a merchant acting on behalf of an entity that is the ultimate receiver of funds; material scope extension from existing Terms of Service (ToS)
-- Review whether existing merchant agreements authorise the merchant to act as a payment aggregator/facilitator for third-party entities — if not, an addendum or new clause is required before any merchant goes live with OBO
-- New entity data fields (business_name, email, country) may constitute a new processing activity — confirm Data Processing Agreement (DPA) coverage and assess cross-border data transfer obligations when `entity_details` flows to merchant webhook endpoints
-- Entity deletion design retains historical data and labels the entity "(Deleted)" — confirm this meets data retention obligations and doesn't conflict with data-erasure rights
-- Hosted page display options (`entity` vs `entity_plus_account`) and refunds retaining `on_behalf_of` — confirm consumer disclosure implications and that liability for refunds is clearly allocated between Tazapay, the merchant, and the entity in merchant-facing documentation
-- MTO, remittance agent, and mobile money operator entity types are regulated categories — confirm processing attributed to them is within existing licence permissions or refer to Licensing
+**Actions**
+- Review merchant agreements — acting as a payment aggregator for third-party entities is a material scope extension; likely needs a ToS addendum.
+- Assess whether new entity data fields (name, email, country) constitute a new processing activity under GDPR/PDPA.
+- Confirm whether operating a payment facilitation layer for sub-entities triggers licensing obligations in active jurisdictions.
+- Review hosted page display config (entity alone vs. entity + merchant) for consumer disclosure implications.
 
 ---
 
 ## Licensing
 
-- Geographic scope is unrestricted in the PRD — go-live is gated by Licensing sign-off per entity type and merchant segment
-- Commerce entity types (sellers, merchants, vendors): standard marketplace facilitation — likely within existing Payment Institution (PI) / E-Money Institution (EMI) licence scope; confirm per active geography
-- Remittance entity types (MTOs, remittance agents, subagents): higher-risk category — confirm processing payments attributed to these entity types is within existing licence permissions in each jurisdiction
-- Financial services entity types (wallet providers, mobile money operators, telecoms): jurisdiction-specific — these entities are often themselves regulated; confirm no regulatory conflict before enabling
-- Open question — does the introduction of OBO checkout constitute a material change to Tazapay's payment services in any jurisdiction requiring advance regulatory notification before launch
-- Confirm whether transaction reporting thresholds are triggered differently when payins are attributed to an entity rather than the merchant; if OBO drives material volume growth, reassess safeguarding and capital adequacy thresholds
+**Actions**
+- Assess whether OBO constitutes a material change requiring regulatory notification in any jurisdiction before launch.
+- Confirm licence scope covers each supported entity type per active geography — especially financial services types (GCash, M-Pesa equivalents) which are regulated entities themselves.
+- Confirm whether reporting thresholds (cross-border, large value) trigger differently when the payin is attributed to an entity rather than the merchant.
+- Review whether capital adequacy or safeguarding calculations change if OBO drives material volume growth.
 
 ---
 
-*Each team reads their section. Common Context applies to all. Bullets are the pre-launch checklist — escalate before go-live, not after.*
+## Payment Operations
+
+**Ops actions**
+- Update reconciliation scripts to read `on_behalf_of` and `entity_details` — surface entity-level breaks, not just merchant-level.
+- Map new API errors (`entity_not_approved`, 'on_behalf_of required') to SOPs and define ops vs. Compliance routing.
+- Validate in staging: Receiver Name, Entity ID, Country, Email, Reference ID, and Entity Status columns on checkout/payin reports.
+
+**Partner onboarding actions**
+- Update partner onboarding SOPs to cover MID configuration at entity level (previously merchant level only).
+- Confirm Entity Listing Review Required / Not Required split is working and routing to Compliance correctly.
+- Communicate to merchants: `entity_not_approved` requires Compliance Onboarding action, not ops retry; set SLA expectation.
+
+---
+
+## Banking Partnerships / Payments Pod
+
+**Context**
+OBO makes Tazapay a payment facilitator for sub-entities. Banking and acquiring partners who approved Tazapay under merchant-level arrangements may not have assessed risk at sub-entity or aggregator level.
+
+**Actions**
+- Review partner agreements — confirm PayFac-style sub-entity attribution is within approved activity scope, or identify which partners need notification.
+- Check active partners for restrictions on marketplace, MTO, remittance, or wallet provider flows — these are supported under OBO.
+- Brief relevant partners before launch where supported entity types overlap with segments they've flagged as elevated risk.
+
+---
+
+*Each team reads their section. Common Context applies to all. Actions / Blockers / Watch-out items are the pre-launch checklist — escalate before go-live, not after.*
