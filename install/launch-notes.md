@@ -60,6 +60,8 @@ Each team gets a **named-subsection layout**, not a flat bullet list:
 - **No "confirm whether X" framing for everything.** Mix verbs: "Define", "Review", "Confirm", "Flag", "Communicate", "Brief", "Validate", "Map", "Update".
 - Use em dashes (—) for compound thoughts in one bullet — but never to introduce a separate idea (split into two bullets instead).
 - Pull facts, field names, error codes, configs directly from PRD. Never invent.
+- **No invented technical concepts.** If the PRD mentions a system or dependency (e.g. "N8N drives capability metadata"), do NOT add adjacent engineering concepts the PRD doesn't raise — no "latency, caching, fallback behaviour", no "rate-limits at the API layer", no "on-chain attribution", no "deployment ordering", no "audit trail" unless the PRD itself uses those words. If the team genuinely needs to assess one of these, the right output is a bullet asking "confirm what N8N's failure mode is", not a bullet asserting that latency/caching matter.
+- **Plain language, not engineering-speak.** Write like the team lead reads it once and acts. Prefer "When the metadata service is down" over "fallback behaviour during dependency unavailability". Prefer "Wallets can't be turned off" over "wallet disablement is removed from the user-facing surface". If a bullet uses words your audience wouldn't use in a Slack message to you, rewrite it.
 - If PRD is silent on something the team cares about, write one bullet flagging it as an open question — do not invent an answer.
 - **Naming third-party products**: allowed when they're examples of entity types or use cases being processed for (e.g. "GCash, M-Pesa equivalents", "marketplace sellers"). NOT allowed for rail partners / PSPs / banks (those stay generic — see Partnerships rules below).
 
@@ -299,25 +301,39 @@ Save as `launch-notes.md` in the current working directory. Use this exact struc
 
 > Read this first. All team sections below assume you've read this.
 
-**What we're launching**
-2–3 sentences. Plain-language summary of the feature and the problem it solves. No jargon.
+**Why we're doing this**
+2–3 sentences. Lead with the motivation — the problem it solves or the strategic lever it pulls (treasury, GTM, compliance posture). Then one sentence on what is actually being shipped. No jargon, no feature inventory here — the next table covers that.
 
-**Who it affects**
-- **Geographies:** [exact list from PRD only — do not infer]
-- **Entity types:** [exact names from PRD — do not expand]
-- **Customer segments:** [exact from PRD]
+**What's changing**
 
-**Key technical facts**
-- **Payment rails / PSPs involved:** [exact list, or "none"]
-- **New corridors or currencies:** [exact list, or "none"]
-- **Rollout strategy:** [flag-gated / gradual / hard cutover — or "TBC"]
-- **Configs being introduced (and defaults):** [list, or "none"]
-- **New API errors / webhook events / fields:** [exact names, or "none"]
-- **Sardine involved:** [Yes / No]
-- **Forter involved:** [Yes / No]
+| Area | What changes | Who this affects |
+|---|---|---|
+| [Capability area — e.g. "Account creation", "Approval flow", "Fees", "Webhooks", "RBAC"] | [Specific change — name the exact endpoints, states, configs, events, errors from the PRD] | [Exact PRD language for segment / entity type / team / persona] |
+| ... | ... | ... |
+
+Rules for the table:
+- 4–8 rows. Each row is one tangible change a reader can hold in their head. No padding rows.
+- Use the PRD's exact endpoint paths, state names, config defaults, webhook event names, error codes, fee types.
+- "Who this affects" is one short phrase — segment, entity type, or internal team. If it affects everyone in scope, write "All in-scope merchants" — do not repeat the same long list each row.
+- Group related changes into one row rather than splitting (e.g. all new webhook events as one row, not nine).
+
+**At a glance**
+
+| | |
+|---|---|
+| **Geographies** | [exact list from PRD, or "TBC"] |
+| **Entity types** | [exact PRD names — do not expand] |
+| **Customer segments** | [exact PRD language] |
+| **Payment rails / PSPs** | [exact list, or "none"] — never name specific partners here either, use generic categories |
+| **New corridors / currencies** | [exact list, or "none"] |
+| **Rollout strategy** | flag-gated / gradual / hard cutover / TBC |
+| **Sardine involved** | Yes / No |
+| **Forter involved** | Yes / No |
+
+Omit any row that is genuinely "none" — don't pad. If a row says "TBC", that's signal worth keeping.
 
 **Open questions (from PRD)**
-List any questions explicitly flagged as unresolved. If none, omit this section.
+List any questions explicitly flagged as unresolved in the PRD. One bullet each. If none, omit this section.
 
 ---
 
@@ -354,15 +370,37 @@ Close the file with:
 
 ---
 
+## Step 6 — Export to .docx
+
+After writing `launch-notes.md`, generate a Word document in the same folder so it's shareable with stakeholders who don't read markdown.
+
+Run:
+
+```bash
+python3 ~/.claude/commands/md_to_docx.py "$(pwd)/launch-notes.md"
+```
+
+This writes `launch-notes.docx` next to the markdown source. Both files stay in the folder:
+- **`launch-notes.md`** — source of truth, easy to iterate on, version-controlled
+- **`launch-notes.docx`** — shareable export with native tables, headings, and bullet styling
+
+If the script is in a different install location (e.g. the repo's `install/` folder rather than `~/.claude/commands/`), substitute the path accordingly. Requires Python 3 with `python-docx` installed (`pip3 install python-docx`).
+
+Confirm by listing the folder — both files should be present.
+
+---
+
 ## Quality Rules
 
-- Common Context: detailed (multi-section, full technical facts) — do not repeat this content in team sections
+- Common Context: lead with **Why we're doing this** (prose), then a **What's changing** table (Area / What changes / Who this affects), then **At a glance** metadata table. Do not repeat this content in team sections.
 - Team sections: short, named-subsection layout, 2-4 bullets per subsection, single-sentence bullets
 - No acronym expansion. No parenthetical clarifier bloat. No padding.
 - Default to 5–9 teams. Combine adjacent teams when scope overlaps.
 - Apply every team's scoping rules
 - Use exact field names, error codes, configs from PRD — never invent
+- **No invented technical concepts** — don't add "latency", "caching", "fallback", "rate-limits", "audit trail", "deployment ordering", "on-chain attribution", "data residency", or any engineering concept the PRD itself doesn't use. If a team needs that assessed, write it as an open question, not as an assertion.
+- **Plain language** — write like a Slack message to the team lead, not like a tech spec. If the audience wouldn't use the word in conversation, rewrite the bullet.
 - Banking Partnerships: never name specific PSPs, banks, or partners
 - If PRD is silent on something a team genuinely cares about, write the bullet as an open question
 
-Once done, confirm: "launch-notes.md written for [N] teams. Review before sharing."
+Once done, confirm: "launch-notes.md + launch-notes.docx written for [N] teams. Review before sharing."

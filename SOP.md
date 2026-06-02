@@ -24,15 +24,20 @@ npm install -g @anthropic-ai/claude-code
 
 ### 2. Install the commands
 
-Download these two files from GitHub and copy them to `~/.claude/commands/`:
+Download these three files from GitHub and copy them to `~/.claude/commands/`:
 
 - [`launch-notes.md`](https://github.com/ritikgargtaza/Product-launch-notes/blob/main/install/launch-notes.md) — generates per-team launch notes from a PRD
 - [`pre-scope.md`](https://github.com/ritikgargtaza/Product-launch-notes/blob/main/install/pre-scope.md) — generates early-stage questions before a PRD exists
+- [`md_to_docx.py`](https://github.com/ritikgargtaza/Product-launch-notes/blob/main/install/md_to_docx.py) — converts launch-notes.md to .docx for sharing
 
 ```bash
-# After downloading both files:
+# After downloading all three files:
 cp ~/Downloads/launch-notes.md ~/.claude/commands/launch-notes.md
 cp ~/Downloads/pre-scope.md ~/.claude/commands/pre-scope.md
+cp ~/Downloads/md_to_docx.py ~/.claude/commands/md_to_docx.py
+
+# One-time Python dependency for the .docx export:
+pip3 install python-docx
 ```
 
 Done. You never need to do this again unless the commands are updated.
@@ -75,7 +80,7 @@ Open Claude Code in the folder, then run:
 ```
 /launch-notes
 ```
-→ Generates `launch-notes.md` with tailored notes for each listed team.
+→ Generates `launch-notes.md` (markdown source) and `launch-notes.docx` (shareable Word doc) with tailored notes for each listed team.
 
 Your folder will contain:
 ```
@@ -83,7 +88,8 @@ your-feature/
 ├── IDEA.md           ← your rough idea
 ├── pre-scope.md      ← 8 teams, pre-scope questions
 ├── PRD.md            ← your full PRD
-└── launch-notes.md   ← tailored notes per team
+├── launch-notes.md   ← tailored notes per team (markdown source)
+└── launch-notes.docx ← shareable Word export
 ```
 
 The commands look for files by exact name — `IDEA.md` for pre-scope, `PRD.md` for launch notes.
